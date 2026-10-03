@@ -42,7 +42,7 @@
   $('image-wrap').hidden=!s.file;$('closing-visual').hidden=s.format!=='closing';$('video-wrap').hidden=s.format!=='video';
   $('enlarge').hidden=!s.file;
   if(s.file){$('screen').src='assets/'+s.file;$('screen').alt=s.label+' · 실제 앱 화면';}
-  if(s.format==='video'){video.currentTime=0;$('play-video').textContent='교육영상 재생';$('play-video').hidden=false;updateSound();}
+  if(s.format==='video'){video.currentTime=0;$('play-video').textContent='교육영상 재생';$('play-video').hidden=false;updateSound();window.DemoSubtitles?.render();}else{window.DemoSubtitles?.clear();}
   $('outro-actions').hidden=s.format!=='closing';
   $('prev').disabled=current===0;
   $('next').textContent=current===scenes.length-1?'다시 보기':'다음';
