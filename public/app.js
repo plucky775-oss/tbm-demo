@@ -33,7 +33,8 @@
   document.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.chapter)===s.chapter?'step':'false'));
   $('chapter-number').textContent=`${pad(s.chapter+1)} / ${pad(chapters.length)}`;
   $('chapter-tag').textContent=c.tag;$('title').innerHTML=c.title;$('description').innerHTML=c.description;
-  $('note-text').innerHTML=c.notes.map(p=>`<p>${escapeText(p)}</p>`).join('');
+  $('note-text').innerHTML=`<strong>${escapeText(s.label)}</strong>`+(s.notes||c.notes).map(p=>`<p>${escapeText(p)}</p>`).join('')+(s.presenterCue?`<p class="presenter-cue"><b>진행 안내</b> ${escapeText(s.presenterCue)}</p>`:'');
+  $('notes').scrollTop=0;
   $('scene-list').innerHTML=scenes.map((v,i)=>({v,i})).filter(({v})=>v.chapter===s.chapter).map(({v,i},local)=>`<button class="scene-button" data-scene="${i}" aria-current="${i===current}"><span class="dot">${local+1}</span><span>${v.label}</span></button>`).join('');
   $('screen-label').textContent=s.label;$('caption').textContent=s.caption;
   $('media-count').textContent=`${pad(current+1)} / ${scenes.length}`;
