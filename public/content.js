@@ -24,10 +24,10 @@ window.DEMO = {
  {name:'현장도구',tag:'현장에서 자주 쓰는 기능',title:'기록부터 현장 확인까지,<br><em>필요한 도구를 모았습니다.</em>',description:'공지사항, 음성메모, 거리뷰, 비상연락망과<br>주변 응급의료시설을 확인합니다.',notes:[
  '다음은 현장도구입니다. 공지사항 확인, 음성을 글로 남기는 메모, 거리뷰를 통한 현장 확인, 비상연락망 등 현장에서 자주 쓰는 기능을 모았습니다.',
  '응급의료시설 메뉴에서는 현재 위치를 기준으로 가까운 의료시설을 확인하고 길찾기와 전화 연결 기능을 활용할 수 있습니다. 지금 보시는 화면은 실제 앱의 조회 예시입니다.',
- '여기까지 현장에서 쓰는 파워TBM 기능을 살펴봤습니다. 이어서 사고사례를 교육 콘텐츠로 만드는 Safety 4-Cut을 소개하겠습니다.'
+ '이어서 파워TBM의 AI 안전교육 기능을 살펴보겠습니다. 사고사례를 카툰과 교육영상으로 만드는 Safety 4-Cut입니다.'
  ]},
- {name:'4컷 카툰',tag:'SAFETY 4-CUT',title:'사고사례를 눈으로,<br><em>예방 방법을 쉽게.</em>',description:'사고자료로 시나리오와 카툰을 만들고,<br>목소리와 효과음을 더해 영상으로 전달합니다.',notes:[
- '다음으로 소개해 드릴 기능은 안전교육을 돕는 Safety 4-Cut, AI 안전카툰입니다.',
+ {name:'AI 안전교육',tag:'파워TBM · AI 안전교육',title:'사고사례를 눈으로,<br><em>예방 방법을 쉽게.</em>',description:'사고자료로 시나리오와 카툰을 만들고,<br>목소리와 효과음을 더해 영상으로 전달합니다.',notes:[
+ '파워TBM의 AI 안전교육 기능인 Safety 4-Cut을 소개해 드리겠습니다.',
  '사고보고서를 글로만 읽다 보면 사고가 어떤 상황에서 발생했는지 쉽게 이해하기 어려울 수 있습니다.',
  '이때 사고 내용이나 관련 사진을 입력하면 AI가 사고 상황을 바탕으로 시나리오를 만들고, 사고가 발생한 과정과 예방 방법을 4컷 카툰으로 보여 줍니다.',
  '여기에 인물의 목소리와 효과음까지 더하면 교육용 영상으로도 제작할 수 있습니다.',
@@ -35,8 +35,8 @@ window.DEMO = {
  '영상으로 보시면 어떤 행동이 위험했는지, 그리고 같은 사고를 예방하려면 무엇을 확인해야 하는지 훨씬 쉽게 이해할 수 있습니다.',
  '이렇게 제작한 콘텐츠는 작업 전 안전회의나 현장 안전교육에서 활용할 수 있습니다.'
  ]},
- {name:'마무리',tag:'현장에서 함께 쓰는 안전도구',title:'안전회의는 간편하게,<br><em>안전교육은 이해하기 쉽게.</em>',description:'Power TBM으로 오늘의 위험을 함께 확인하고,<br>Safety 4-Cut으로 사고와 예방 방법을 전달합니다.',notes:[
- '정리하면, 파워TBM으로 오늘 작업의 위험요인을 함께 확인하고, AI 안전카툰으로 사고사례와 예방 방법을 쉽게 전달할 수 있습니다.',
+ {name:'마무리',tag:'현장에서 함께 쓰는 안전도구',title:'안전회의는 간편하게,<br><em>안전교육은 이해하기 쉽게.</em>',description:'파워TBM 안에서 안전회의와 기록,<br>현장 확인과 AI 안전교육까지 이어집니다.',notes:[
+ '정리하면, 파워TBM은 안전회의와 회의록, 안전가이드와 현장도구에 AI 안전교육 기능까지 더해 현장의 안전활동을 돕습니다.',
  '안전회의는 간편하게, 안전교육은 이해하기 쉽게.',
  '이것이 파워TBM이 만들어 가고자 하는 현장의 변화입니다. 감사합니다.'
  ]}
@@ -54,13 +54,12 @@ window.DEMO = {
  {chapter:3,label:'안전가이드',file:'safety-guide.png',format:'portrait',seconds:16,caption:'사고사례·위험요인·안전대책과 안전수칙을 한곳에서 확인'},
  {chapter:4,label:'현장도구',file:'field-tools.png',format:'portrait',seconds:14,caption:'공지사항·음성메모·거리뷰·비상연락망 등 현장 기능'},
  {chapter:4,label:'응급의료시설',file:'emergency-facilities.png',format:'portrait',seconds:12,caption:'실제 앱의 조회 예시 · 가까운 의료시설 확인과 길찾기·전화 연결'},
- {chapter:5,label:'Safety 4-Cut 시작',file:'fourcut-home.jpeg',format:'landscape',seconds:8,caption:'실제 Safety 4-Cut 화면'},
- {chapter:5,label:'사고자료 입력',file:'upload.png',format:'landscape',seconds:8,caption:'사진·보고서 등 사고자료로 시작'},
+ {chapter:5,label:'AI 안전교육 · 사고자료 입력',file:'upload.png',format:'landscape',seconds:8,caption:'파워TBM AI 안전교육 / Safety 4-Cut · 사진·보고서로 시작'},
  {chapter:5,label:'분석 내용 확인',file:'case-analysis.png',format:'portrait',seconds:8,caption:'AI가 분석한 사고 상황을 확인하고 수정'},
  {chapter:5,label:'시나리오 확인',file:'case-story.png',format:'portrait',seconds:8,caption:'장면과 대사를 확인한 뒤 그림 제작'},
  {chapter:5,label:'완성된 4컷',file:'case-cartoon.jpg',format:'portrait',seconds:12,caption:'지상변압기 전원측 엘보 분리 중 감전 · 4컷 예시'},
  {chapter:5,label:'음성·효과음',file:'audio.jpg',format:'portrait',seconds:8,caption:'목소리·효과음·배경음을 더해 영상 제작'},
  {chapter:5,label:'완성 영상 재생',format:'video',seconds:65,caption:'같은 사고사례의 영상 · 지상변압기 감전 예방 (원본 전체)'},
- {chapter:6,label:'현장 안전회의와 안전교육',format:'closing',seconds:15,caption:'Power TBM · Safety 4-Cut'}
+ {chapter:6,label:'현장 안전회의와 안전교육',format:'closing',seconds:15,caption:'파워TBM · 안전회의부터 AI 안전교육까지'}
  ]
 };
