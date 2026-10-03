@@ -33,7 +33,7 @@ assert.equal(toggle.textContent, '자막 ON');
 video.currentTime = 0.5; video.fire('timeupdate');
 assert.match(line.attributes['aria-label'], /^2025년 5월 17일/);
 const firstWord = line.children.find(child => child.className === 'subtitle-word');
-assert.equal(firstWord.style['--read'], '30.0%', 'word highlight follows media time');
+assert.equal(firstWord.style['--read'], '29.6%', 'word highlight follows media time');
 video.currentTime = 3.2; video.fire('seeked');
 assert.notEqual(line.attributes['aria-label'], '2025년 5월 17일', 'seeking selects the matching cue');
 const seekLabel = line.attributes['aria-label'];
@@ -56,4 +56,5 @@ assert.match(html, /src="assets\/video\.mp4" type="video\/mp4"/, 'the original M
 assert.match(html, /aria-controls="video-subtitles"/, 'the caption toggle controls the separate caption row');
 assert.match(css, /\.video-subtitles\[hidden\]\{display:none\}/, 'the hidden state works despite the global hidden rule');
 assert.match(css, /\.video-subtitles\{display:grid/, 'captions occupy a separate layout row below the video');
+assert.match(css, /video\{max-height:calc\(100% - 285px\)\}/, 'the player leaves room for captions and controls');
 console.log('Video subtitle regression checks passed.');

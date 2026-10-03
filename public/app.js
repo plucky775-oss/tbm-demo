@@ -59,7 +59,7 @@
  $('prev').addEventListener('click',()=>go(current-1,true));
  $('next').addEventListener('click',()=>go((current+1)%scenes.length,true));
  $('brand').addEventListener('click',reset);$('reset').addEventListener('click',reset);$('restart').addEventListener('click',reset);
- $('play-video').addEventListener('click',()=>video.play().then(()=>{$('play-video').hidden=true;}).catch(()=>{$('media-error').textContent='동영상을 재생하지 못했습니다. 아래의 영상만 열기를 눌러 주세요.';$('media-error').hidden=false;}));
+ $('play-video').addEventListener('click',()=>{if(video.ended){video.currentTime=0;window.DemoSubtitles?.render();}video.play().then(()=>{$('play-video').hidden=true;}).catch(()=>{$('media-error').textContent='동영상을 재생하지 못했습니다. 아래의 영상만 열기를 눌러 주세요.';$('media-error').hidden=false;});});
  video.addEventListener('play',()=>{$('play-video').hidden=true;});
  video.addEventListener('ended',()=>{$('play-video').textContent='영상 다시 재생';$('play-video').hidden=false;});
  video.addEventListener('error',()=>{if(scenes[current].format==='video'){$('media-error').textContent='영상이 열리지 않습니다. 연결 상태를 확인하거나 영상만 열기를 눌러 주세요.';$('media-error').hidden=false;}});

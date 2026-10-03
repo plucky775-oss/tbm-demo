@@ -29,6 +29,7 @@
 
 /* Video captions stay in the player flow, below the picture. */
 .video-subtitles{display:grid;place-items:center;width:min(100%,1100px);min-height:clamp(76px,10vh,106px);padding:8px 14px;background:#07131e;border:1px solid #ffffff20;border-radius:10px;color:#fff;text-align:center}
+.canvas[data-format=video] .video-wrap video{max-height:calc(100% - 285px)}
 .video-subtitles[hidden]{display:none}
 .subtitle-line{margin:0;font-size:clamp(20px,2.1vw,32px);font-weight:800;line-height:1.4;letter-spacing:-.025em;word-break:keep-all;overflow-wrap:anywhere}
 .subtitle-word{--read:0%;display:inline-block;color:#fff;background:linear-gradient(to right,#ffda35 0%,#ffda35 var(--read),#fff var(--read),#fff 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
