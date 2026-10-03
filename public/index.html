@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#163b55">
+<meta name="description" content="파워TBM의 안전회의, 전자서명과 회의록, 안전가이드와 현장도구, Safety 4-Cut을 실제 화면으로 소개하는 BIXPO 전시 시연입니다.">
+<title>파워TBM · BIXPO 시연</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="stylesheet" href="style.css?v=4">
+<link rel="preload" as="image" href="assets/home.jpeg">
+<script src="content.js?v=4" defer></script><script src="app.js?v=4" defer></script>
+</head>
+<body data-mode="presenter">
+<a class="skip" href="#main">시연 내용으로 이동</a>
+<header class="masthead">
+<button id="brand" class="brand" aria-label="처음으로"><img src="assets/icon.png" alt="" width="44" height="44"><span>Power TBM<small>BIXPO 2026 · 현장 시연</small></span></button>
+<div class="header-actions"><div class="mode-switch" role="group" aria-label="시연 모드"><button id="presenter-mode" aria-pressed="true">발표용</button><button id="kiosk-mode" aria-pressed="false">무인 전시용</button></div><button id="auto" class="auto" aria-pressed="false"><span id="auto-icon" aria-hidden="true">▷</span> <span id="auto-label">자동 시연</span></button><button id="fullscreen" class="quiet">전체화면</button></div>
+</header>
+<nav id="chapters" class="chapters" aria-label="설명 순서"></nav>
+<main id="main" class="stage">
+<section class="story" aria-labelledby="title">
+<div class="eyebrow"><span id="chapter-number">01 / 07</span><span id="chapter-tag">POWER TBM</span></div>
+<h1 id="title">안전회의는 간편하게,<br><em>안전교육은 이해하기 쉽게.</em></h1>
+<p id="description" class="description">작업 전 확인부터 회의록, 사고사례 교육까지.<br>현장에서 필요한 과정을 한 흐름으로 연결합니다.</p>
+<div id="scene-list" class="scene-list" role="group" aria-label="이 단계의 시연 화면"></div>
+<details id="notes" class="notes"><summary>발표 멘트 보기</summary><div id="note-text"></div></details>
+<div id="outro-actions" class="outro-actions" hidden><button class="primary" id="restart">처음부터 다시 보기</button><div class="app-links"><a href="https://power-tbm.vercel.app/" target="_blank" rel="noopener">파워TBM 열기</a><a href="https://safety-toons.vercel.app/" target="_blank" rel="noopener">Safety 4-Cut 열기</a></div></div>
+</section>
+<section class="visual" aria-label="실제 앱 화면 시연">
+<div class="visual-heading"><span id="screen-label">파워TBM 첫 화면</span><button id="enlarge" class="quiet">화면 확대</button></div>
+<div id="canvas" class="canvas" data-format="portrait">
+<div id="image-wrap" class="image-wrap"><img id="screen" src="assets/home.jpeg" alt="파워TBM 실제 앱 첫 화면" draggable="false"></div>
+<div id="focus-box" class="focus-box" hidden aria-hidden="true"><span class="touch-cue"></span></div>
+<div id="closing-visual" class="closing-visual" hidden><figure><img src="assets/home.jpeg" alt="파워TBM 첫 화면"><figcaption>Power TBM<br><span>오늘의 위험을 함께 확인</span></figcaption></figure><figure><img src="assets/case-cartoon.jpg" alt="Safety 4-Cut 완성된 4컷 카툰"><figcaption>Safety 4-Cut<br><span>사고와 예방 방법을 쉽게 전달</span></figcaption></figure></div>
+<div id="video-wrap" class="video-wrap" hidden><video id="video" controls playsinline webkit-playsinline preload="metadata" poster="assets/poster.jpg"><source src="assets/video.mp4" type="video/mp4">이 브라우저는 동영상을 지원하지 않습니다.</video><button id="play-video" class="primary">교육영상 재생</button><button id="video-sound" class="quiet" aria-pressed="false">영상 소리 끄기</button><a href="assets/video.mp4" target="_blank" rel="noopener" class="video-link">영상만 열기</a></div>
+<p id="media-error" class="media-error" hidden role="alert"></p>
+</div>
+<div class="visual-caption"><span id="caption">실제 앱 화면 · 시연 예시</span><span id="media-count">01 / 20</span></div>
+</section>
+</main>
+<footer class="controls"><button id="reset" class="quiet">처음으로</button><div class="status"><span id="status-text" role="status" aria-live="polite">직접 넘기며 설명하세요</span><div id="progress" class="progress" role="progressbar" aria-label="시연 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div></div><div class="navigation"><button id="prev">이전</button><button id="next" class="primary">다음</button></div></footer>
+<dialog id="zoom" aria-label="실제 앱 화면 확대"><div class="zoom-toolbar"><strong id="zoom-title">화면 확대</strong><button id="zoom-close">닫기</button></div><div class="zoom-scroll"><img id="zoom-image" alt=""></div></dialog>
+<noscript><p class="noscript">시연을 진행하려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+</body>
+</html>

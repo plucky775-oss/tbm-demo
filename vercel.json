@@ -1,0 +1,1 @@
+{"buildCommand": "node scripts/restore-video.cjs", "outputDirectory": "public"}

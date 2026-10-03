@@ -1,0 +1,11 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const root = path.resolve(__dirname, '..');
+const dir = path.join(root, 'video-parts');
+const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+const video = Buffer.concat(manifest.parts.map(name => fs.readFileSync(path.join(dir, name))));
+if (video.length !== manifest.size || crypto.createHash('sha256').update(video).digest('hex') !== manifest.sha256) throw new Error('Video integrity check failed');
+fs.mkdirSync(path.join(root, 'public/assets'), { recursive: true });
+fs.writeFileSync(path.join(root, 'public/assets/video.mp4'), video);
+console.log('Original video restored and SHA-256 verified.');
