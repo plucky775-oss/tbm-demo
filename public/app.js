@@ -5,6 +5,7 @@
  const video=$('video');
  let current=0;
  const live=window.createLiveDemo(visible=>{
+  $('enlarge').hidden=visible||!scenes[current].file;
   $('enlarge').textContent=visible?'크게 체험하기':'화면 확대';
   updateStatus();requestAnimationFrame(updateFocus);
  });
