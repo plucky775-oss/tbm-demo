@@ -12,7 +12,7 @@ window.createAppFrame=function({container,onState,timeoutMs=15000}){
   if(!frame){
    frame=document.createElement('iframe');frame.title='파워TBM 전체 앱';
    frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads');
-   frame.referrerPolicy='no-referrer';
+   frame.referrerPolicy='strict-origin-when-cross-origin';
    // load is not proof of a rendered app: blocked frames also fire load.
    frame.addEventListener('load',probe);
    frame.addEventListener('error',()=>fail('frame-load-failed'));

@@ -12,7 +12,7 @@ function setup(){
  return {app,states,timers,reply,get frame(){return frame;}};
 }
 test('load alone and untrusted messages cannot expose a blank frame',()=>{
- const h=setup();h.app.ensure();h.frame.events.load();assert.equal(h.app.getState(),'loading');
+ const h=setup();h.app.ensure();h.frame.events.load();assert.equal(h.frame.referrerPolicy,'strict-origin-when-cross-origin');assert.equal(h.app.getState(),'loading');
  h.reply('ready',{origin:'https://untrusted.example'});assert.equal(h.app.getState(),'loading');
  h.reply('ready',{source:{}});assert.equal(h.app.getState(),'loading');
  h.reply('ready');assert.equal(h.app.getState(),'ready');assert.equal(h.timers.size,0);
