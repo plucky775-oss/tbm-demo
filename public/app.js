@@ -3,7 +3,9 @@
  const {chapters,scenes}=window.DEMO;
  const $=id=>document.getElementById(id);
  const video=$('video');
+ const notesStore=window.createPresenterNotesStore();
  let current=0;
+ let editingScene=null;
  const live=window.createLiveDemo((visible,wantsApp)=>{
   $('enlarge').hidden=wantsApp||!scenes[current].file;
   $('enlarge').textContent='화면 확대';
@@ -26,6 +28,52 @@
  const firstOfChapter=n=>scenes.findIndex(s=>s.chapter===n);
  const pad=n=>String(n).padStart(2,'0');
  const escapeText=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const notesKey=s=>s.file||s.format;
+ const defaultNotes=s=>({text:(s.notes||chapters[s.chapter].notes).join('\n\n'),cue:s.presenterCue||''});
+ function renderNotes(message=''){
+  const s=scenes[current],saved=notesStore.read(notesKey(s),defaultNotes(s));
+  $('notes-source').textContent=saved.custom?'내가 수정한 멘트':'기본 멘트';
+  $('note-text').innerHTML=`<strong>${escapeText(s.label)}</strong>`+saved.text.split(/\n\s*\n/).map(p=>`<p class="note-paragraph">${escapeText(p)}</p>`).join('')+(saved.cue?`<p class="presenter-cue"><b>진행 안내</b> ${escapeText(saved.cue)}</p>`:'');
+  $('notes-feedback').textContent=message;
+ }
+ function clearNotesError(){
+  $('notes-editor-error').hidden=true;
+  $('notes-input').setCustomValidity('');
+ }
+ $('edit-notes').addEventListener('click',()=>{
+  editingScene=scenes[current];
+  const saved=notesStore.read(notesKey(editingScene),defaultNotes(editingScene));
+  $('notes-editor-page').textContent=`${pad(current+1)} / ${scenes.length} · ${editingScene.label}`;
+  $('notes-input').value=saved.text;$('cue-input').value=saved.cue;
+  clearNotesError();video.pause();$('notes-editor').showModal();
+  $('notes-input').focus();
+ });
+ $('notes-input').addEventListener('input',clearNotesError);
+ $('cue-input').addEventListener('input',clearNotesError);
+ $('notes-default').addEventListener('click',()=>{
+  const defaults=defaultNotes(editingScene);
+  $('notes-input').value=defaults.text;$('cue-input').value=defaults.cue;
+  clearNotesError();$('notes-input').focus();
+ });
+ $('notes-cancel').addEventListener('click',()=>$('notes-editor').close());
+ $('notes-editor').addEventListener('close',()=>{editingScene=null;$('edit-notes').focus();});
+ $('notes-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!editingScene)return;
+  if(!$('notes-input').value.trim()){
+   $('notes-input').setCustomValidity('발표 멘트를 입력해 주세요.');$('notes-input').reportValidity();return;
+  }
+  try{
+   notesStore.save(notesKey(editingScene),{text:$('notes-input').value,cue:$('cue-input').value},defaultNotes(editingScene));
+  }catch(_error){
+   $('notes-editor-error').textContent='이 브라우저에 저장하지 못했습니다. 작성한 내용을 복사해 보관하고, 저장 공간이나 브라우저 설정을 확인해 주세요.';
+   $('notes-editor-error').hidden=false;return;
+  }
+  $('notes-editor').close();renderNotes('이 기기·브라우저에 저장했습니다.');
+ });
+ window.addEventListener('storage',e=>{
+  if(!e.key||e.key==='tbm-demo:presenter-notes:v1:'+notesKey(scenes[current]))renderNotes();
+ });
  $('chapters').innerHTML=chapters.map((c,i)=>`<button class="chapter" data-chapter="${i}" aria-current="${i===0?'step':'false'}"><span>${pad(i+1)}</span>${c.name}</button>`).join('');
  $('chapters').addEventListener('click',e=>{const b=e.target.closest('[data-chapter]');if(b)go(firstOfChapter(Number(b.dataset.chapter)));});
  function updateStatus(){
@@ -38,7 +86,7 @@
   document.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.chapter)===s.chapter?'step':'false'));
   $('chapter-number').textContent=`${pad(s.chapter+1)} / ${pad(chapters.length)}`;
   $('chapter-tag').textContent=c.tag;$('title').innerHTML=c.title;$('description').innerHTML=c.description;
-  $('note-text').innerHTML=`<strong>${escapeText(s.label)}</strong>`+(s.notes||c.notes).map(p=>`<p>${escapeText(p)}</p>`).join('')+(s.presenterCue?`<p class="presenter-cue"><b>진행 안내</b> ${escapeText(s.presenterCue)}</p>`:'');
+  renderNotes();
   $('notes').scrollTop=0;
   $('scene-list').innerHTML=scenes.map((v,i)=>({v,i})).filter(({v})=>v.chapter===s.chapter).map(({v,i},local)=>`<button class="scene-button" data-scene="${i}" aria-current="${i===current}"><span class="dot">${local+1}</span><span>${v.label}</span></button>`).join('');
   $('screen-label').textContent=s.label;$('caption').textContent=s.caption;
@@ -75,7 +123,7 @@
  $('zoom-close').addEventListener('click',()=>$('zoom').close());
  $('zoom').addEventListener('click',e=>{if(e.target===$('zoom'))$('zoom').close();});
  document.addEventListener('keydown',e=>{
-  if($('zoom').open||e.ctrlKey||e.metaKey||e.altKey||['INPUT','TEXTAREA','SELECT','VIDEO'].includes(e.target.tagName))return;
+  if($('zoom').open||$('notes-editor').open||e.ctrlKey||e.metaKey||e.altKey||['INPUT','TEXTAREA','SELECT','VIDEO'].includes(e.target.tagName))return;
   if(e.key==='ArrowRight'){e.preventDefault();go((current+1)%scenes.length);}
   if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
   if(e.key==='Home'){e.preventDefault();reset();}
