@@ -37,3 +37,18 @@
 .live-wrap iframe[hidden]{display:none}.canvas.is-live{padding:4px;height:76svh;min-height:520px}
 .canvas.is-live.expanded{height:90svh;min-height:650px}
 @media(max-width:700px){.canvas.is-live,.canvas.is-live[data-format=landscape]{height:78svh;min-height:520px}.canvas.is-live.expanded{height:90svh}.live-controls{align-items:flex-start}}
+
+/* Keep the presentation controls outside the app and visible on exhibition displays. */
+.live-controls{gap:8px;margin-bottom:6px}.live-controls button{min-height:34px;padding:5px 10px;font-size:12px}
+.live-wrap{border-radius:8px}.canvas.is-live{background:white;border:1px solid var(--line);box-shadow:none;padding:0}
+@media(min-width:901px) and (min-height:650px){
+ body{height:100svh;display:flex;flex-direction:column;overflow:hidden}
+ .masthead,.chapters,.controls{width:100%;flex-shrink:0}
+ .masthead{padding-top:10px;padding-bottom:10px}.chapters .chapter{min-height:46px;padding-top:10px;padding-bottom:10px}
+ .stage{flex:1;min-height:0;height:0;width:100%;padding-top:16px;padding-bottom:12px;align-items:stretch}
+ .story{align-self:center;max-height:100%;overflow:auto;padding:4px 4px 4px 0}
+ .visual{display:flex;flex-direction:column;min-height:0}.visual-heading,.live-controls,.visual-caption{flex-shrink:0}
+ .canvas,.canvas.is-live,.canvas.is-live.expanded{flex:1;height:auto;min-height:0}
+ .controls{position:static;padding-top:10px;padding-bottom:10px}
+ .story h1{font-size:clamp(25px,2.5vw,36px);margin-bottom:14px}.description{margin-bottom:15px}
+}
