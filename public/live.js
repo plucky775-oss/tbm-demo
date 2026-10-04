@@ -2,7 +2,7 @@
 // One owner for media visibility, independent of the app lifecycle and slide text.
 window.createLiveDemo=function(onChange){
  const $=id=>document.getElementById(id);
- let scene=null,mode='live';
+ let scene=null,mode='example';
  const app=window.createAppFrame({container:$('live-wrap'),onState:paint});
  function paint(){
   if(!scene)return;
@@ -35,5 +35,5 @@ window.createLiveDemo=function(onChange){
  $('show-live').onclick=()=>{mode='live';app.ensure();paint();};
  $('show-example').onclick=()=>{mode='example';paint();};
  $('retry-app').onclick=()=>app.retry();
- return {show,isVisible:()=>!!scene?.file&&mode==='live'&&app.getState()==='ready',isAppMode:()=>!!scene?.file&&mode==='live',reset(){mode='live';}};
+ return {show,isVisible:()=>!!scene?.file&&mode==='live'&&app.getState()==='ready',isAppMode:()=>!!scene?.file&&mode==='live',reset(){mode='example';}};
 };
