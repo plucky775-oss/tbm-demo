@@ -12,6 +12,8 @@ window.createAppFrame=function({container,onState,timeoutMs=15000}){
   if(!frame){
    frame=document.createElement('iframe');frame.title='파워TBM 전체 앱';
    frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads');
+   // Let the embedded TBM app request location; the user must still grant consent.
+   frame.setAttribute('allow','geolocation '+origin);
    frame.referrerPolicy='strict-origin-when-cross-origin';
    // load is not proof of a rendered app: blocked frames also fire load.
    frame.addEventListener('load',probe);
