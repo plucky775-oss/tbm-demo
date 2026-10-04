@@ -8,9 +8,9 @@
 <title>파워TBM · BIXPO 시연</title>
 <link rel="icon" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <link rel="preload" as="image" href="assets/home.jpeg">
-<script src="content.js?v=6" defer></script><script src="app.js?v=6" defer></script>
+<script src="content.js?v=7" defer></script><script src="live.js?v=7" defer></script><script src="app.js?v=7" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">시연 내용으로 이동</a>
@@ -29,7 +29,9 @@
 </section>
 <section class="visual" aria-label="실제 앱 화면 시연">
 <div class="visual-heading"><span id="screen-label">파워TBM 첫 화면</span><button id="enlarge" class="quiet">화면 확대</button></div>
+<div id="live-controls" class="live-controls" hidden><div role="group" aria-label="시연 화면 선택"><button id="show-live" aria-pressed="true">직접 체험</button><button id="show-example" aria-pressed="false">예시 화면</button></div><span id="live-status" role="status" aria-live="polite"></span></div>
 <div id="canvas" class="canvas" data-format="portrait">
+<div id="live-wrap" class="live-wrap" hidden></div>
 <div id="image-wrap" class="image-wrap"><img id="screen" src="assets/home.jpeg" alt="파워TBM 실제 앱 첫 화면" draggable="false"></div>
 <div id="focus-box" class="focus-box" hidden aria-hidden="true"><span class="touch-cue"></span></div>
 <div id="closing-visual" class="closing-visual" hidden>

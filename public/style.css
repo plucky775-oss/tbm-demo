@@ -26,3 +26,14 @@
 @media(max-width:700px){.closing-visual{gap:10px;padding:2px}.closing-brand strong{font-size:23px}.closing-brand img{width:36px;height:36px}.closing-features span{font-size:11px;padding:6px 8px}.education-feature figcaption{font-size:16px}}
 
 .notes .presenter-cue{padding:10px 12px;border-left:3px solid #c0d2e5;background:#edf3f9;font-size:13px;color:#62788b}.presenter-cue b{display:block;font-size:12px;margin-bottom:3px}
+
+/* Guided real-app frames; screenshots remain available on every linked scene. */
+.live-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;flex-wrap:wrap}
+.live-controls>div{display:flex;gap:6px}.live-controls button{min-height:44px;font-size:13px;padding:8px 12px}
+.live-controls button[aria-pressed=true]{background:#173b55;color:white;border-color:#173b55}
+#live-status{font-size:12px;color:var(--muted);flex:1;min-width:160px}
+.live-wrap{width:100%;height:100%;min-height:0;overflow:hidden;border-radius:12px;background:white}
+.live-wrap iframe{width:100%;height:100%;border:0;background:white;display:block}
+.live-wrap iframe[hidden]{display:none}.canvas.is-live{padding:4px;height:76svh;min-height:520px}
+.canvas.is-live.expanded{height:90svh;min-height:650px}
+@media(max-width:700px){.canvas.is-live,.canvas.is-live[data-format=landscape]{height:78svh;min-height:520px}.canvas.is-live.expanded{height:90svh}.live-controls{align-items:flex-start}}
