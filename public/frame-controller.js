@@ -7,8 +7,14 @@ window.createAppFrame=function({container,onState,timeoutMs=15000}){
  function transition(next){if(state===next)return;state=next;onState(state);}
  function probe(){frame?.contentWindow?.postMessage({type:'tbm:presentation-probe',channel},origin);}
  function fail(reason){stopTimers();console.warn('[app-frame]',reason);transition('error');}
- function start(){
+ function waitForApp(){
   stopTimers();channel=crypto.randomUUID();
+  transition('loading');
+  deadline=setTimeout(()=>fail('readiness-timeout'),timeoutMs);
+  probeTimer=setInterval(probe,750);
+  probe();
+ }
+ function start(){
   if(!frame){
    frame=document.createElement('iframe');frame.title='파워TBM 전체 앱';
    frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads');
@@ -16,19 +22,19 @@ window.createAppFrame=function({container,onState,timeoutMs=15000}){
    frame.setAttribute('allow','geolocation '+origin);
    frame.referrerPolicy='strict-origin-when-cross-origin';
    // load is not proof of a rendered app: blocked frames also fire load.
-   frame.addEventListener('load',probe);
+   // Every document navigation (including the cartoon app) needs a fresh handshake.
+   frame.addEventListener('load',waitForApp);
    frame.addEventListener('error',()=>fail('frame-load-failed'));
    container.append(frame);
   }
-  transition('loading');
+  waitForApp();
   frame.src=origin+'/?presentation=1';
-  deadline=setTimeout(()=>fail('readiness-timeout'),timeoutMs);
-  probeTimer=setInterval(probe,750);
  }
  function onMessage(e){
   if(!frame||e.source!==frame.contentWindow||e.origin!==origin||e.data?.type!=='tbm:presentation-status'||e.data.channel!==channel)return;
   if(e.data.state==='ready'){stopTimers();transition('ready');}
   else if(e.data.state==='blank')fail('app-content-empty');
+  else if(e.data.state==='loading')waitForApp();
  }
  window.addEventListener('message',onMessage);
  return {

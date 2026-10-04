@@ -10,7 +10,9 @@ window.createLiveDemo=function(onChange){
   const visible=wantsApp&&state==='ready';
   const waiting=wantsApp&&!visible;
   $('canvas').classList.toggle('is-live',wantsApp);
-  $('live-wrap').hidden=!visible;
+  // Keep the app painted beneath the loading overlay, including on iPad Safari.
+  $('live-wrap').hidden=!wantsApp;
+  $('live-wrap').inert=!visible;
   $('live-wrap').setAttribute('aria-hidden',String(!visible));
   $('image-wrap').hidden=wantsApp||!scene.file;
   $('video-wrap').hidden=scene.format!=='video';
