@@ -54,3 +54,4 @@
 }
 /* Retain frame dimensions during the ready handshake to avoid false blank-screen recovery. */
 .canvas .live-wrap[hidden]{display:block!important;position:absolute;inset:0;visibility:hidden;pointer-events:none}
+.full-app-link{font-size:12px;color:var(--blue);text-decoration:none;padding:8px;white-space:nowrap}

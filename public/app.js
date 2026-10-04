@@ -29,7 +29,7 @@
  $('chapters').innerHTML=chapters.map((c,i)=>`<button class="chapter" data-chapter="${i}" aria-current="${i===0?'step':'false'}"><span>${pad(i+1)}</span>${c.name}</button>`).join('');
  $('chapters').addEventListener('click',e=>{const b=e.target.closest('[data-chapter]');if(b)go(firstOfChapter(Number(b.dataset.chapter)));});
  function updateStatus(){
-  $('status-text').textContent=scenes[current].format==='video'?'영상은 재생 버튼을 눌러 주세요':live.isVisible()?'화면에서 체험한 뒤 다음을 눌러 주세요':'직접 넘기며 설명하세요';
+  $('status-text').textContent=scenes[current].format==='video'?'영상은 재생 버튼을 눌러 주세요':live.isVisible()?'앱은 직접 조작 · 이전·다음은 발표 멘트 이동':'직접 넘기며 설명하세요';
  }
  function render(){
   const s=scenes[current],c=chapters[s.chapter];
