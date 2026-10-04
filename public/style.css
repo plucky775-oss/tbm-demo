@@ -52,3 +52,5 @@
  .controls{position:static;padding-top:10px;padding-bottom:10px}
  .story h1{font-size:clamp(25px,2.5vw,36px);margin-bottom:14px}.description{margin-bottom:15px}
 }
+/* Retain frame dimensions during the ready handshake to avoid false blank-screen recovery. */
+.canvas .live-wrap[hidden]{display:block!important;position:absolute;inset:0;visibility:hidden;pointer-events:none}
