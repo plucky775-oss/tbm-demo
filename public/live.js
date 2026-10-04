@@ -43,7 +43,11 @@ window.createLiveDemo=function(onChange){
   if(e.data.type==='tbm-demo:ready'){clearTimeout(timer);ready=true;paint();}
   if(e.data.type==='tbm-demo:error'){clearTimeout(timer);mode='example';paint();$('live-status').textContent='앱 화면을 열지 못해 예시 화면으로 전환했습니다.';}
  });
- $('show-live').onclick=()=>{if(!wanted)return;mode='live';send();if(!ready)timeout();paint();};
+ $('show-live').onclick=()=>{
+  if(!wanted)return;mode='live';
+  if(!ready){active.frame.src=active.frame.src;timeout();}else send();
+  paint();
+ };
  $('show-example').onclick=()=>{mode='example';clearTimeout(timer);paint();};
  return {show,isVisible:()=>!!wanted&&mode==='live'&&ready,reset(){clearTimeout(timer);frames.forEach(v=>v.frame.remove());frames.clear();active=null;wanted=null;ready=false;}};
 };
