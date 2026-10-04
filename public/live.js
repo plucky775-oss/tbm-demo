@@ -1,32 +1,37 @@
 'use strict';
-// Keep one complete production app mounted. Presentation navigation never drives its routes.
+// One owner for media visibility, independent of the app lifecycle and slide text.
 window.createLiveDemo=function(onChange){
  const $=id=>document.getElementById(id);
- let frame=null,scene=null,mode='live';
+ let scene=null,mode='live';
+ const app=window.createAppFrame({container:$('live-wrap'),onState:paint});
  function paint(){
-  const visible=!!scene?.file&&mode==='live';
-  $('live-wrap').hidden=!visible;$('image-wrap').hidden=visible||!scene?.file;
-  $('canvas').classList.toggle('is-live',visible);
-  $('live-controls').hidden=!scene?.file;
+  if(!scene)return;
+  const wantsApp=!!scene.file&&mode==='live',state=app.getState();
+  const visible=wantsApp&&state==='ready';
+  const waiting=wantsApp&&!visible;
+  $('canvas').classList.toggle('is-live',wantsApp);
+  $('live-wrap').hidden=!visible;
+  $('live-wrap').setAttribute('aria-hidden',String(!visible));
+  $('image-wrap').hidden=wantsApp||!scene.file;
+  $('video-wrap').hidden=scene.format!=='video';
+  $('closing-visual').hidden=scene.format!=='closing';
+  $('frame-message').hidden=!waiting;
+  $('frame-message').setAttribute('aria-busy',String(state==='loading'));
+  $('frame-message-title').textContent=state==='error'?'앱 화면을 불러오지 못했습니다':'파워TBM을 불러오는 중입니다';
+  $('frame-message-text').textContent=state==='error'?'다시 불러오거나 새 창에서 앱을 열어 주세요. 예시 화면으로 발표를 계속할 수도 있습니다.':'앱 화면이 준비되면 여기에 표시됩니다.';
+  $('retry-app').hidden=state!=='error';
+  $('live-controls').hidden=!scene.file;
   $('show-live').setAttribute('aria-pressed',String(mode==='live'));
   $('show-example').setAttribute('aria-pressed',String(mode==='example'));
-  $('live-status').textContent=mode==='live'?'실제 앱 · 기존 계정으로 로그인':'발표용 예시 화면';
-  if(visible){$('focus-box').hidden=true;$('screen-label').textContent='파워TBM';$('caption').textContent='앱은 자유롭게 조작하고, 발표 멘트는 아래 이전·다음으로 넘기세요.';}
-  else if(scene){$('screen-label').textContent=scene.label;$('caption').textContent=scene.caption;}
-  onChange(visible);
+  $('live-status').textContent=!wantsApp?'발표용 예시 화면':state==='ready'?'실제 앱 · 기존 계정으로 로그인':state==='error'?'연결 확인 필요':'연결 중';
+  $('screen-label').textContent=wantsApp?'파워TBM':scene.label;
+  $('caption').textContent=wantsApp?'앱은 자유롭게 조작하고, 발표 멘트는 아래 이전·다음으로 넘기세요.':scene.caption;
+  if(wantsApp)$('focus-box').hidden=true;
+  onChange(visible,wantsApp);
  }
- function show(value){
-  scene=value;
-  if(scene.file&&!frame){
-   frame=document.createElement('iframe');frame.title='파워TBM 전체 앱';
-   frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads');
-   frame.referrerPolicy='no-referrer';frame.src='https://power-tbm.vercel.app/';
-   $('live-wrap').append(frame);
-  }
-  paint();
- }
- $('show-live').onclick=()=>{mode='live';paint();};
+ function show(value){scene=value;if(scene.file&&mode==='live')app.ensure();paint();}
+ $('show-live').onclick=()=>{mode='live';app.ensure();paint();};
  $('show-example').onclick=()=>{mode='example';paint();};
- // Restart only the presentation; never discard a user's live app session or work.
- return {show,isVisible:()=>!!scene?.file&&mode==='live',reset(){mode='live';}};
+ $('retry-app').onclick=()=>app.retry();
+ return {show,isVisible:()=>!!scene?.file&&mode==='live'&&app.getState()==='ready',isAppMode:()=>!!scene?.file&&mode==='live',reset(){mode='live';}};
 };

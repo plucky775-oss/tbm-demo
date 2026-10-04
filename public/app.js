@@ -4,14 +4,14 @@
  const $=id=>document.getElementById(id);
  const video=$('video');
  let current=0;
- const live=window.createLiveDemo(visible=>{
-  $('enlarge').hidden=visible||!scenes[current].file;
-  $('enlarge').textContent=visible?'크게 체험하기':'화면 확대';
+ const live=window.createLiveDemo((visible,wantsApp)=>{
+  $('enlarge').hidden=wantsApp||!scenes[current].file;
+  $('enlarge').textContent='화면 확대';
   updateStatus();requestAnimationFrame(updateFocus);
  });
  function updateFocus(){
   const s=scenes[current],box=$('focus-box'),img=$('screen');
-  if(live.isVisible()||!s.focus||!s.file||!img.complete||!img.naturalWidth){box.hidden=true;return;}
+  if(live.isAppMode()||!s.focus||!s.file||!img.complete||!img.naturalWidth){box.hidden=true;return;}
   const r=img.getBoundingClientRect(),c=$('canvas').getBoundingClientRect();
   const [x,y,w,h]=s.focus;
   Object.assign(box.style,{left:(r.left-c.left+x*r.width)+'px',top:(r.top-c.top+y*r.height)+'px',width:(w*r.width)+'px',height:(h*r.height)+'px'});
@@ -34,7 +34,6 @@
  function render(){
   const s=scenes[current],c=chapters[s.chapter];
   video.pause();$('focus-box').hidden=true;
-  $('canvas').classList.remove('expanded');
   $('media-error').hidden=true;
   document.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.chapter)===s.chapter?'step':'false'));
   $('chapter-number').textContent=`${pad(s.chapter+1)} / ${pad(chapters.length)}`;
@@ -45,7 +44,6 @@
   $('screen-label').textContent=s.label;$('caption').textContent=s.caption;
   $('media-count').textContent=`${pad(current+1)} / ${scenes.length}`;
   $('canvas').dataset.format=s.format;
-  $('image-wrap').hidden=!s.file;$('closing-visual').hidden=s.format!=='closing';$('video-wrap').hidden=s.format!=='video';
   $('enlarge').hidden=!s.file;
   if(s.file){$('screen').src='assets/'+s.file;$('screen').alt=s.label+' · 실제 앱 화면';}
   if(s.format==='video'){video.currentTime=0;$('play-video').textContent='교육영상 재생';$('play-video').hidden=false;updateSound();}
@@ -71,11 +69,6 @@
  video.addEventListener('error',()=>{if(scenes[current].format==='video'){$('media-error').textContent='영상이 열리지 않습니다. 연결 상태를 확인하거나 영상만 열기를 눌러 주세요.';$('media-error').hidden=false;}});
  $('screen').addEventListener('error',()=>{$('media-error').textContent='화면을 불러오지 못했습니다. 연결을 확인하고 페이지를 새로고침해 주세요.';$('media-error').hidden=false;});
  $('enlarge').addEventListener('click',()=>{
-  if(live.isVisible()){
-   const expanded=$('canvas').classList.toggle('expanded');
-   $('enlarge').textContent=expanded?'크기 되돌리기':'크게 체험하기';
-   return;
-  }
   $('zoom-image').src=$('screen').src;$('zoom-image').alt=$('screen').alt;$('zoom-image').className=scenes[current].format==='portrait'?'portrait':'';
   $('zoom-title').textContent=scenes[current].label;$('zoom').showModal();
  });

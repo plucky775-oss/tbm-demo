@@ -1,0 +1,26 @@
+/* Embedded app and recovery UI. The iframe retains its dimensions while hidden. */
+.live-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px;flex-wrap:wrap}
+.live-controls>div{display:flex;gap:6px}.live-controls button{min-height:44px;padding:8px 10px;font-size:12px}
+.live-controls button[aria-pressed=true]{background:#173b55;color:white;border-color:#173b55}
+#live-status{font-size:12px;color:var(--muted);flex:1;min-width:150px}
+.full-app-link{font-size:12px;color:var(--blue);text-decoration:none;padding:8px;white-space:nowrap}
+.live-wrap{position:absolute;inset:0;overflow:hidden;background:#fff}
+.live-wrap iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+.canvas .live-wrap[hidden]{display:block!important;visibility:hidden;pointer-events:none}
+.canvas.is-live{background:#f5f8fb;padding:0;height:76svh;min-height:420px;box-shadow:none}
+.frame-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;text-align:center;background:linear-gradient(135deg,#edf4fb,#fff);color:var(--ink)}
+.frame-message strong{font-size:20px}.frame-message p{max-width:380px;font-size:15px;line-height:1.7;margin:0;color:var(--muted)}
+.frame-message>div{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px}.frame-message a{display:inline-flex;align-items:center;min-height:44px;padding:10px;color:var(--blue)}
+@media(max-width:700px){.canvas.is-live,.canvas.is-live[data-format=landscape]{height:78svh;min-height:420px}.live-controls{align-items:flex-start}.frame-message{padding:20px}.frame-message strong{font-size:18px}}
+/* One visible presentation navigation bar on desktop and large tablets. */
+@media(min-width:901px) and (min-height:650px){
+ body{height:100svh;display:flex;flex-direction:column;overflow:hidden}
+ .masthead,.chapters,.controls{width:100%;flex-shrink:0}
+ .masthead{padding-top:10px;padding-bottom:10px}.chapters .chapter{min-height:46px;padding-top:10px;padding-bottom:10px}
+ .stage{flex:1;min-height:0;height:0;width:100%;padding-top:16px;padding-bottom:12px;align-items:stretch}
+ .story{align-self:center;max-height:100%;overflow:auto;padding:4px 4px 4px 0}
+ .visual{display:flex;flex-direction:column;min-height:0}.visual-heading,.live-controls,.visual-caption{flex-shrink:0}
+ .canvas,.canvas.is-live{flex:1;height:auto;min-height:0}
+ .controls{position:static;padding-top:10px;padding-bottom:10px}
+ .story h1{font-size:clamp(25px,2.5vw,36px);margin-bottom:14px}.description{margin-bottom:15px}
+}
