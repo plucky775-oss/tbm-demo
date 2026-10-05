@@ -123,7 +123,7 @@
  $('zoom-close').addEventListener('click',()=>$('zoom').close());
  $('zoom').addEventListener('click',e=>{if(e.target===$('zoom'))$('zoom').close();});
  document.addEventListener('keydown',e=>{
-  if($('zoom').open||$('notes-editor').open||e.ctrlKey||e.metaKey||e.altKey||['INPUT','TEXTAREA','SELECT','VIDEO'].includes(e.target.tagName))return;
+  if($('zoom').open||$('notes-editor').open||$('install-help').open||e.ctrlKey||e.metaKey||e.altKey||['INPUT','TEXTAREA','SELECT','VIDEO'].includes(e.target.tagName))return;
   if(e.key==='ArrowRight'){e.preventDefault();go((current+1)%scenes.length);}
   if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
   if(e.key==='Home'){e.preventDefault();reset();}

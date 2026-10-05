@@ -11,19 +11,21 @@
 <meta name="description" content="파워TBM의 안전회의, 전자서명과 회의록, 안전가이드와 현장도구, 안전 4컷 기능을 실제 화면으로 소개하는 BIXPO 전시 시연입니다.">
 <title>파워TBM · BIXPO 시연</title>
 <script src="entry.js?v=1"></script>
+<script src="install.js?v=1"></script>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/briefing-green/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/briefing-green/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/briefing-green/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
 <link rel="stylesheet" href="media.css?v=10">
 <link rel="preload" as="image" href="assets/home.jpeg">
-<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=12" defer></script><script src="live.js?v=11" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="app.js?v=10" defer></script>
+<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=12" defer></script><script src="live.js?v=11" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="app.js?v=11" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">시연 내용으로 이동</a>
 <header class="masthead">
 <button id="brand" class="brand" aria-label="처음으로"><img src="assets/icon.png" alt="" width="44" height="44"><span>Power TBM<small>BIXPO 2026 · 현장 시연</small></span></button>
+<button id="install-app" class="install-app" hidden aria-label="TBM 브리핑 설치">앱 설치</button>
 </header>
 <nav id="chapters" class="chapters" aria-label="설명 순서"></nav>
 <main id="main" class="stage">
@@ -67,5 +69,11 @@
 </form>
 </dialog>
 <noscript><p class="noscript">시연을 진행하려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+<dialog id="install-help" aria-labelledby="install-title">
+<div class="install-heading"><img src="assets/briefing-green/icon-192.png" alt="" width="56" height="56"><div><h2 id="install-title">TBM 브리핑 설치</h2><p>홈 화면에서 바로 실행하세요.</p></div></div>
+<p id="install-instructions"></p>
+<p class="install-tip">설치창이 나오지 않으면 브라우저 메뉴로 설치할 수 있습니다. 카카오톡·네이버 등 앱 안에서 열었다면 외부 브라우저로 열어 주세요. 이미 설치했다면 홈 화면의 초록색 ‘TBM 브리핑’ 아이콘을 실행하세요.</p>
+<div class="install-actions"><button id="install-close">닫기</button><button id="install-now" class="primary" hidden>지금 설치</button></div>
+</dialog>
 </body>
 </html>
