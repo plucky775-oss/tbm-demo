@@ -46,13 +46,28 @@ function setup({reduced=false,width=1024}={}){
 test('previous/next buttons and handlers are gone; gesture script loads before app',()=>{
  assert.doesNotMatch(html,/id="(?:prev|next)"/);assert.doesNotMatch(read('app.js'),/\$\('(?:prev|next)'\)/);
  assert(html.indexOf('src="page-swipe.js')<html.indexOf('src="app.js'));
- for(const file of ['app.js','live.js','style.css','page-swipe.js'])assert(html.includes(file+'?v=14-swipe'));
+ for(const file of ['app.js','live.js','style.css'])assert(html.includes(file+'?v=14-swipe'));
+ assert(html.includes('page-swipe.js?v=15-touch-fix'));
 });
 test('swipes turn every scene in both directions; ends are bounded',()=>{
  const h=setup();h.swipe(180);h.tick();assert.equal(h.current(),0);
  for(let i=1;i<h.scenes.length;i++){h.swipe();h.tick();assert.equal(h.current(),i);}
  h.swipe();h.tick();assert.equal(h.current(),h.scenes.length-1);
  for(let i=h.scenes.length-2;i>=0;i--){h.swipe(180);h.tick();assert.equal(h.current(),i);}
+});
+test('touch capture transfer from example image does not cancel the swipe',()=>{
+ const h=setup();h.point('pointerdown',200);h.point('pointermove',60);
+ h.node('main').fire('lostpointercapture',{target:h.node('screen'),pointerId:1});
+ h.point('pointerup',20);h.tick();assert.equal(h.current(),1);
+ h.point('pointerdown',200);h.point('pointermove',340);
+ h.node('main').fire('lostpointercapture',{target:h.node('screen'),pointerId:1});
+ h.point('pointerup',380);h.tick();assert.equal(h.current(),0);
+});
+test('genuine surface capture loss cancels a gesture',()=>{
+ const h=setup();h.point('pointerdown',200);h.point('pointermove',60);
+ h.node('main').pointer=null;
+ h.node('main').fire('lostpointercapture',{pointerId:1});
+ h.point('pointerup',20);h.tick();assert.equal(h.current(),0);
 });
 test('fold direction, rapid swipe lock, reset cancellation and focus alignment',()=>{
  const h=setup();h.swipe();assert.equal(h.node('main').dataset.pageTurn,'out');assert.equal(h.node('main').dataset.turnDirection,'next');h.swipe();h.tick(200);

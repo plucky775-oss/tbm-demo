@@ -16,7 +16,11 @@ window.bindPageSwipe=function({surfaces,onTurn,isBlocked}){
    if(e.pointerType==='touch'&&(e.clientX<18||e.clientX>window.innerWidth-18))return;
    swipe={surface,id:e.pointerId,x:e.clientX,y:e.clientY,horizontal:false};
   },{passive:true});
-  surface.addEventListener('lostpointercapture',reset);
+  surface.addEventListener('lostpointercapture',e=>{
+   // Touch starts with implicit capture on the image. Its bubbling loss during
+   // transfer to this surface is not a cancelled gesture.
+   if(e.target===surface&&swipe?.id===e.pointerId&&!surface.hasPointerCapture?.(e.pointerId))reset();
+  });
   surface.addEventListener('dragstart',e=>{if(!isControl(e.target))e.preventDefault();});
  }
  window.addEventListener('pointermove',e=>{
