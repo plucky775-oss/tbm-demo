@@ -115,7 +115,7 @@
   video.pause();
   $('main').dataset.turnDirection=target>current?'next':'previous';
   $('main').dataset.pageTurn='out';
-  turnTimers=[setTimeout(()=>{current=target;render();$('main').dataset.pageTurn='in';},200),setTimeout(()=>{clearTurn();updateFocus();},420)];
+  turnTimers=[setTimeout(()=>{current=target;render();$('main').dataset.pageTurn='in';},80),setTimeout(()=>{clearTurn();updateFocus();},180)];
  }
  function turnPage(direction){
   if(turnTimers.length||dialogOpen())return;

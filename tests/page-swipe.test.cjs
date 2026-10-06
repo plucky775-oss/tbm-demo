@@ -46,7 +46,8 @@ function setup({reduced=false,width=1024}={}){
 test('previous/next buttons and handlers are gone; gesture script loads before app',()=>{
  assert.doesNotMatch(html,/id="(?:prev|next)"/);assert.doesNotMatch(read('app.js'),/\$\('(?:prev|next)'\)/);
  assert(html.indexOf('src="page-swipe.js')<html.indexOf('src="app.js'));
- for(const file of ['app.js','live.js','style.css'])assert(html.includes(file+'?v=14-swipe'));
+ assert(html.includes('live.js?v=14-swipe'));
+ for(const file of ['app.js','style.css'])assert(html.includes(file+'?v=16-calm'));
  assert(html.includes('page-swipe.js?v=15-touch-fix'));
 });
 test('swipes turn every scene in both directions; ends are bounded',()=>{
@@ -69,10 +70,10 @@ test('genuine surface capture loss cancels a gesture',()=>{
  h.node('main').fire('lostpointercapture',{pointerId:1});
  h.point('pointerup',20);h.tick();assert.equal(h.current(),0);
 });
-test('fold direction, rapid swipe lock, reset cancellation and focus alignment',()=>{
- const h=setup();h.swipe();assert.equal(h.node('main').dataset.pageTurn,'out');assert.equal(h.node('main').dataset.turnDirection,'next');h.swipe();h.tick(200);
+test('soft transition direction, rapid swipe lock, reset cancellation and focus alignment',()=>{
+ const h=setup();h.swipe();assert.equal(h.node('main').dataset.pageTurn,'out');assert.equal(h.node('main').dataset.turnDirection,'next');h.swipe();h.tick(80);
  assert.equal(h.current(),1);assert.equal(h.node('main').dataset.pageTurn,'in');assert.equal(h.node('focus-box').hidden,true);
- h.tick(220);assert.equal(h.node('main').dataset.pageTurn,undefined);assert.equal(h.node('focus-box').hidden,false);
+ h.tick(100);assert.equal(h.node('main').dataset.pageTurn,undefined);assert.equal(h.node('focus-box').hidden,false);
  h.swipe(180);assert.equal(h.node('main').dataset.turnDirection,'previous');h.tick();assert.equal(h.current(),0);
  h.swipe();h.click('reset');h.tick();assert.equal(h.current(),0);assert.equal(h.node('main').dataset.pageTurn,undefined);
 });

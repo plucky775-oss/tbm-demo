@@ -59,16 +59,9 @@
 #main:focus-visible,#page-swipe-area:focus-visible{outline:3px solid #1385eb;outline-offset:-3px}
 #page-swipe-area{min-height:44px;max-width:600px;display:flex;flex-direction:column;justify-content:center}
 .is-page-dragging{cursor:grabbing}
-#main[data-page-turn]{--turn-sign:1;backface-visibility:hidden;will-change:transform;position:relative;background:var(--bg)}
-#main[data-turn-direction=previous]{--turn-sign:-1}
-#main[data-page-turn=out]{transform-origin:left center;animation:page-fold-out 200ms ease-in both}
-#main[data-page-turn=in]{transform-origin:right center;animation:page-fold-in 220ms ease-out both}
-#main[data-turn-direction=previous][data-page-turn=out]{transform-origin:right center}
-#main[data-turn-direction=previous][data-page-turn=in]{transform-origin:left center}
-#main[data-page-turn]::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(90deg,transparent 30%,#173b5326 85%,#fff8);animation:page-fold-shade 200ms ease-in both}
-#main[data-page-turn=in]::after{animation-direction:reverse;animation-duration:220ms}
-#main[data-turn-direction=previous]::after{transform:scaleX(-1)}
-@keyframes page-fold-out{from{transform:perspective(1800px) rotateY(0deg)}to{transform:perspective(1800px) rotateY(calc(-88deg * var(--turn-sign)))}}
-@keyframes page-fold-in{from{transform:perspective(1800px) rotateY(calc(88deg * var(--turn-sign)))}to{transform:perspective(1800px) rotateY(0deg)}}
-@keyframes page-fold-shade{from{opacity:0}to{opacity:1}}
-@media(prefers-reduced-motion:reduce){#main[data-page-turn]{animation:none;transform:none}#main[data-page-turn]::after{display:none}}
+/* Brief opacity change only: no rotation, zoom, travel or moving shadows. */
+#main[data-page-turn=out]{animation:page-soft-out 80ms ease-out both}
+#main[data-page-turn=in]{animation:page-soft-in 100ms ease-out both}
+@keyframes page-soft-out{from{opacity:1}to{opacity:.9}}
+@keyframes page-soft-in{from{opacity:.9}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#main[data-page-turn]{animation:none}}
