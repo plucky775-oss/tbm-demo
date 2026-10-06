@@ -16,10 +16,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/briefing-green/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/briefing-green/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=14-swipe">
 <link rel="stylesheet" href="media.css?v=10">
 <link rel="preload" as="image" href="assets/home.jpeg">
-<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=13" defer></script><script src="live.js?v=12" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="app.js?v=11" defer></script>
+<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=13" defer></script><script src="live.js?v=14-swipe" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="page-swipe.js?v=14-swipe" defer></script><script src="app.js?v=14-swipe" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">시연 내용으로 이동</a>
@@ -28,7 +28,7 @@
 <button id="install-app" class="install-app" hidden aria-label="TBM 브리핑 설치">앱 설치</button>
 </header>
 <nav id="chapters" class="chapters" aria-label="설명 순서"></nav>
-<main id="main" class="stage">
+<main id="main" class="stage" tabindex="0" aria-label="발표 페이지" aria-describedby="status-text" aria-keyshortcuts="ArrowLeft ArrowRight">
 <section class="story" aria-labelledby="title">
 <div class="eyebrow"><span id="chapter-number">01 / 07</span><span id="chapter-tag">POWER TBM</span></div>
 <h1 id="title">안전회의는 간편하게,<br><em>안전교육은 이해하기 쉽게.</em></h1>
@@ -53,10 +53,10 @@
 <div id="video-wrap" class="video-wrap" hidden><video id="video" controls playsinline webkit-playsinline preload="metadata" poster="assets/poster.jpg"><source src="assets/video.mp4" type="video/mp4">이 브라우저는 동영상을 지원하지 않습니다.</video><button id="play-video" class="primary">교육영상 재생</button><button id="video-sound" class="quiet" aria-pressed="false">영상 소리 끄기</button><a href="assets/video.mp4" target="_blank" rel="noopener" class="video-link">영상만 열기</a></div>
 <p id="media-error" class="media-error" hidden role="alert"></p>
 </div>
-<div class="visual-caption"><span id="caption">실제 앱 화면 · 시연 예시</span><span id="media-count">01 / 19</span></div>
+<div class="visual-caption"><span id="caption">실제 앱 화면 · 시연 예시</span><span id="media-count" role="status" aria-live="polite" aria-atomic="true">01 / 19</span></div>
 </section>
 </main>
-<footer class="controls"><button id="reset" class="quiet">처음으로</button><div class="status"><span id="status-text" role="status" aria-live="polite">직접 넘기며 설명하세요</span><div id="progress" class="progress" role="progressbar" aria-label="시연 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div></div><div class="navigation"><button id="prev">이전</button><button id="next" class="primary">다음</button></div></footer>
+<footer class="controls"><button id="reset" class="quiet">처음으로</button><div id="page-swipe-area" class="status" tabindex="0" aria-label="좌우로 쓸어 발표 페이지 넘기기" aria-keyshortcuts="ArrowLeft ArrowRight"><span id="status-text" role="status" aria-live="polite">왼쪽으로 쓸면 다음 · 오른쪽으로 쓸면 이전</span><div id="progress" class="progress" role="progressbar" aria-label="시연 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div></div></footer>
 <dialog id="zoom" aria-label="실제 앱 화면 확대"><div class="zoom-toolbar"><strong id="zoom-title">화면 확대</strong><button id="zoom-close">닫기</button></div><div class="zoom-scroll"><img id="zoom-image" alt=""></div></dialog>
 <dialog id="notes-editor" class="notes-editor" aria-labelledby="notes-editor-title" aria-describedby="notes-save-help">
 <form id="notes-form">

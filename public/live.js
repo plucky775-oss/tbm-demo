@@ -27,7 +27,7 @@ window.createLiveDemo=function(onChange){
   $('show-example').setAttribute('aria-pressed',String(mode==='example'));
   $('live-status').textContent=!wantsApp?'발표용 예시 화면':state==='ready'?'로그인 없는 체험 · 안전 4컷 제외':state==='error'?'연결 확인 필요':'연결 중';
   $('screen-label').textContent=wantsApp?'파워TBM':scene.label;
-  $('caption').textContent=wantsApp?'앱은 자유롭게 조작하고, 발표 멘트는 아래 이전·다음으로 넘기세요.':scene.caption;
+  $('caption').textContent=wantsApp?'앱은 자유롭게 조작하고, 설명 영역이나 아래 안내 영역을 좌우로 쓸어 발표 페이지를 넘기세요.':scene.caption;
   if(wantsApp)$('focus-box').hidden=true;
   onChange(visible,wantsApp);
  }

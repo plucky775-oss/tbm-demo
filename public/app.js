@@ -6,6 +6,9 @@
  const notesStore=window.createPresenterNotesStore();
  let current=0;
  let editingScene=null;
+ let turnTimers=[];
+ let swipeNavigation;
+ const dialogOpen=()=>['zoom','notes-editor','install-help'].some(id=>$(id).open);
  const live=window.createLiveDemo((visible,wantsApp)=>{
   $('enlarge').hidden=wantsApp||!scenes[current].file;
   $('enlarge').textContent='화면 확대';
@@ -13,7 +16,7 @@
  });
  function updateFocus(){
   const s=scenes[current],box=$('focus-box'),img=$('screen');
-  if(live.isAppMode()||!s.focus||!s.file||!img.complete||!img.naturalWidth){box.hidden=true;return;}
+  if(turnTimers.length||live.isAppMode()||!s.focus||!s.file||!img.complete||!img.naturalWidth){box.hidden=true;return;}
   const r=img.getBoundingClientRect(),c=$('canvas').getBoundingClientRect();
   const [x,y,w,h]=s.focus;
   Object.assign(box.style,{left:(r.left-c.left+x*r.width)+'px',top:(r.top-c.top+y*r.height)+'px',width:(w*r.width)+'px',height:(h*r.height)+'px'});
@@ -77,7 +80,7 @@
  $('chapters').innerHTML=chapters.map((c,i)=>`<button class="chapter" data-chapter="${i}" aria-current="${i===0?'step':'false'}"><span>${pad(i+1)}</span>${c.name}</button>`).join('');
  $('chapters').addEventListener('click',e=>{const b=e.target.closest('[data-chapter]');if(b)go(firstOfChapter(Number(b.dataset.chapter)));});
  function updateStatus(){
-  $('status-text').textContent=scenes[current].format==='video'?'영상은 재생 버튼을 눌러 주세요':live.isVisible()?'앱은 직접 조작 · 이전·다음은 발표 멘트 이동':'직접 넘기며 설명하세요';
+  $('status-text').textContent=scenes[current].format==='video'?'영상은 직접 재생 · 아래 안내 영역을 좌우로 쓸어 이동':live.isAppMode()?'앱은 직접 조작 · 설명 또는 아래 안내 영역을 좌우로 쓸어 이동':'왼쪽으로 쓸면 다음 · 오른쪽으로 쓸면 이전';
  }
  function render(){
   const s=scenes[current],c=chapters[s.chapter];
@@ -96,20 +99,33 @@
   if(s.file){$('screen').src='assets/'+s.file;$('screen').alt=s.label+' · 실제 앱 화면';}
   if(s.format==='video'){video.currentTime=0;$('play-video').textContent='교육영상 재생';$('play-video').hidden=false;updateSound();}
   $('outro-actions').hidden=s.format!=='closing';
-  $('prev').disabled=current===0;
-  $('next').textContent=current===scenes.length-1?'다시 보기':'다음';
   const percent=Math.round((current+1)/scenes.length*100);
   $('progress-fill').style.width=percent+'%';$('progress').setAttribute('aria-valuenow',String(percent));
   live.show(s);updateStatus();requestAnimationFrame(updateFocus);
   const following=scenes[current+1];if(following&&following.file){const im=new Image();im.src='assets/'+following.file;}
  }
- function go(index){
-  current=Math.max(0,Math.min(scenes.length-1,index));render();
+ function clearTurn(){
+  turnTimers.forEach(clearTimeout);turnTimers=[];
+  delete $('main').dataset.pageTurn;delete $('main').dataset.turnDirection;
  }
+ function go(index,animate=false){
+  swipeNavigation?.reset();clearTurn();
+  const target=Math.max(0,Math.min(scenes.length-1,index));
+  if(!animate||target===current||window.matchMedia('(prefers-reduced-motion: reduce)').matches){current=target;render();return;}
+  video.pause();
+  $('main').dataset.turnDirection=target>current?'next':'previous';
+  $('main').dataset.pageTurn='out';
+  turnTimers=[setTimeout(()=>{current=target;render();$('main').dataset.pageTurn='in';},200),setTimeout(()=>{clearTurn();updateFocus();},420)];
+ }
+ function turnPage(direction){
+  if(turnTimers.length||dialogOpen())return;
+  const target=current+direction;
+  if(target<0||target>=scenes.length){$('status-text').textContent=target<0?'첫 페이지입니다.':'마지막 페이지입니다. 처음으로를 누르면 다시 시작합니다.';return;}
+  go(target,true);
+ }
+ swipeNavigation=window.bindPageSwipe({surfaces:[$('main'),$('page-swipe-area')],onTurn:turnPage,isBlocked:()=>turnTimers.length>0||dialogOpen()});
  const reset=()=>{live.reset();go(0);$('notes').open=false;};
  $('scene-list').addEventListener('click',e=>{const b=e.target.closest('[data-scene]');if(b)go(Number(b.dataset.scene));});
- $('prev').addEventListener('click',()=>go(current-1,true));
- $('next').addEventListener('click',()=>go((current+1)%scenes.length,true));
  $('brand').addEventListener('click',reset);$('reset').addEventListener('click',reset);$('restart').addEventListener('click',reset);
  $('play-video').addEventListener('click',()=>video.play().then(()=>{$('play-video').hidden=true;}).catch(()=>{$('media-error').textContent='동영상을 재생하지 못했습니다. 아래의 영상만 열기를 눌러 주세요.';$('media-error').hidden=false;}));
  video.addEventListener('play',()=>{$('play-video').hidden=true;});
@@ -123,9 +139,9 @@
  $('zoom-close').addEventListener('click',()=>$('zoom').close());
  $('zoom').addEventListener('click',e=>{if(e.target===$('zoom'))$('zoom').close();});
  document.addEventListener('keydown',e=>{
-  if($('zoom').open||$('notes-editor').open||$('install-help').open||e.ctrlKey||e.metaKey||e.altKey||['INPUT','TEXTAREA','SELECT','VIDEO'].includes(e.target.tagName))return;
-  if(e.key==='ArrowRight'){e.preventDefault();go((current+1)%scenes.length);}
-  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+  if(dialogOpen()||e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,textarea,select,video,audio,[contenteditable]:not([contenteditable="false"])'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();turnPage(1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();turnPage(-1);}
   if(e.key==='Home'){e.preventDefault();reset();}
  });
  document.addEventListener('visibilitychange',()=>{
