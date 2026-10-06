@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="style.css?v=11">
 <link rel="stylesheet" href="media.css?v=10">
 <link rel="preload" as="image" href="assets/home.jpeg">
-<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=12" defer></script><script src="live.js?v=11" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="app.js?v=11" defer></script>
+<script src="content.js?v=11" defer></script><script src="frame-controller.js?v=13" defer></script><script src="live.js?v=12" defer></script><script src="presenter-notes.js?v=1" defer></script><script src="app.js?v=11" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">시연 내용으로 이동</a>
@@ -35,14 +35,14 @@
 <p id="description" class="description">작업 전 확인부터 회의록, 사고사례 교육까지.<br>현장에서 필요한 과정을 한 흐름으로 연결합니다.</p>
 <div id="scene-list" class="scene-list" role="group" aria-label="이 단계의 시연 화면"></div>
 <details id="notes" class="notes"><summary>발표 멘트 보기</summary><div class="notes-toolbar"><span id="notes-source">기본 멘트</span><button id="edit-notes">멘트 수정</button></div><div id="note-text"></div><p id="notes-feedback" role="status" aria-live="polite"></p></details>
-<div id="outro-actions" class="outro-actions" hidden><button class="primary" id="restart">처음부터 다시 보기</button><div class="app-links"><a href="https://power-tbm.vercel.app/" target="_blank" rel="noopener">파워TBM 열기</a></div></div>
+<div id="outro-actions" class="outro-actions" hidden><button class="primary" id="restart">처음부터 다시 보기</button><div class="app-links"><a href="https://power-tbm.vercel.app/?presentation=1&amp;trial=1" target="_blank" rel="noopener">파워TBM 열기</a></div></div>
 </section>
 <section class="visual" aria-label="실제 앱 화면 시연">
 <div class="visual-heading"><span id="screen-label">파워TBM 첫 화면</span><button id="enlarge" class="quiet">화면 확대</button></div>
-<div id="live-controls" class="live-controls" hidden><div role="group" aria-label="시연 화면 선택"><button id="show-live" aria-pressed="false">전체 앱</button><button id="show-example" aria-pressed="true">예시 화면</button></div><a class="full-app-link" href="https://power-tbm.vercel.app/" target="_blank" rel="noopener">새 창에서 앱 열기</a><span id="live-status" role="status" aria-live="polite"></span></div>
+<div id="live-controls" class="live-controls" hidden><div role="group" aria-label="시연 화면 선택"><button id="show-live" aria-pressed="false">전체 앱</button><button id="show-example" aria-pressed="true">예시 화면</button></div><a class="full-app-link" href="https://power-tbm.vercel.app/?presentation=1&amp;trial=1" target="_blank" rel="noopener">새 창에서 앱 열기</a><span id="live-status" role="status" aria-live="polite"></span></div>
 <div id="canvas" class="canvas" data-format="portrait">
 <div id="live-wrap" class="live-wrap" hidden></div>
-<div id="frame-message" class="frame-message" hidden role="status" aria-live="polite"><strong id="frame-message-title">파워TBM을 불러오는 중입니다</strong><p id="frame-message-text">앱 화면이 준비되면 여기에 표시됩니다.</p><div><button id="retry-app" hidden>앱 다시 불러오기</button><a href="https://power-tbm.vercel.app/" target="_blank" rel="noopener">새 창에서 앱 열기</a></div></div>
+<div id="frame-message" class="frame-message" hidden role="status" aria-live="polite"><strong id="frame-message-title">파워TBM을 불러오는 중입니다</strong><p id="frame-message-text">앱 화면이 준비되면 여기에 표시됩니다.</p><div><button id="retry-app" hidden>앱 다시 불러오기</button><a href="https://power-tbm.vercel.app/?presentation=1&amp;trial=1" target="_blank" rel="noopener">새 창에서 앱 열기</a></div></div>
 <div id="image-wrap" class="image-wrap"><img id="screen" src="assets/home.jpeg" alt="파워TBM 실제 앱 첫 화면" draggable="false"></div>
 <div id="focus-box" class="focus-box" hidden aria-hidden="true"><span class="touch-cue"></span></div>
 <div id="closing-visual" class="closing-visual" hidden>

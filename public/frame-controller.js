@@ -28,7 +28,7 @@ window.createAppFrame=function({container,onState,timeoutMs=15000}){
    container.append(frame);
   }
   waitForApp();
-  frame.src=origin+'/?presentation=1';
+  frame.src=origin+'/?presentation=1&trial=1';
  }
  function onMessage(e){
   if(!frame||e.source!==frame.contentWindow||e.origin!==origin||e.data?.type!=='tbm:presentation-status'||e.data.channel!==channel)return;

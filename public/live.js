@@ -25,7 +25,7 @@ window.createLiveDemo=function(onChange){
   $('live-controls').hidden=!scene.file;
   $('show-live').setAttribute('aria-pressed',String(mode==='live'));
   $('show-example').setAttribute('aria-pressed',String(mode==='example'));
-  $('live-status').textContent=!wantsApp?'발표용 예시 화면':state==='ready'?'실제 앱 · 기존 계정으로 로그인':state==='error'?'연결 확인 필요':'연결 중';
+  $('live-status').textContent=!wantsApp?'발표용 예시 화면':state==='ready'?'로그인 없는 체험 · 안전 4컷 제외':state==='error'?'연결 확인 필요':'연결 중';
   $('screen-label').textContent=wantsApp?'파워TBM':scene.label;
   $('caption').textContent=wantsApp?'앱은 자유롭게 조작하고, 발표 멘트는 아래 이전·다음으로 넘기세요.':scene.caption;
   if(wantsApp)$('focus-box').hidden=true;
