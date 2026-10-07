@@ -6,6 +6,7 @@ const source=fs.readFileSync(require('node:path').join(__dirname,'../public/fram
 function setup(){
  const events={},timers=new Map(),states=[],messages=[];let seq=0,frame;
  const context={window:{addEventListener:(n,f)=>events[n]=f,removeEventListener:n=>delete events[n]},document:{createElement:()=>frame={contentWindow:{postMessage:m=>messages.push(m)},events:{},attributes:{},setAttribute(n,v){this.attributes[n]=v;},addEventListener(n,f){this.events[n]=f;},remove(){}}},crypto:{randomUUID:()=>String(++seq)},console:{warn(){}},setTimeout:f=>(timers.set(++seq,f),seq),setInterval:f=>(timers.set(++seq,f),seq),clearTimeout:n=>timers.delete(n),clearInterval:n=>timers.delete(n)};
+ context.URL=URL;
  vm.runInNewContext(source,context);
  const app=context.window.createAppFrame({container:{append(){}},onState:s=>states.push(s)});
  function reply(state,extra={}){events.message({source:frame.contentWindow,origin:'https://power-tbm.vercel.app',data:{type:'tbm:presentation-status',channel:messages.at(-1).channel,state},...extra});}
@@ -47,4 +48,28 @@ test('cartoon readiness and returning to TBM reuse the same frame',()=>{
  frame.events.load();h.reply('ready');assert.equal(h.app.getState(),'ready');
  frame.events.load();h.reply('ready');assert.equal(h.app.getState(),'ready');
  assert.equal(h.frame,frame);h.app.destroy();
+});
+test('repeated loading and load signals preserve the original deadline',()=>{
+ const h=setup();h.app.ensure();const deadline=[...h.timers.values()][0];
+ for(let i=0;i<20;i++){h.reply('loading');h.frame.events.load();}
+ assert.equal([...h.timers.values()][0],deadline);assert.equal(h.timers.size,2);
+ deadline();assert.equal(h.app.getState(),'error');
+ h.reply('loading');h.frame.events.load();assert.equal(h.app.getState(),'error');assert.equal(h.timers.size,0);
+ const oldUrl=h.frame.src;h.app.retry();assert.notEqual(h.frame.src,oldUrl);assert.equal(h.app.getState(),'loading');
+ h.reply('ready');assert.equal(h.app.getState(),'ready');
+});
+function renderedDocument({url='https://power-tbm.vercel.app/?presentation=1&trial=1',hidden=false}={}){
+ const node={children:[{}],textContent:'Power TBM',hidden,parentElement:null,getBoundingClientRect:()=>({height:500})};
+ return {URL:url,readyState:'complete',getElementById:id=>id==='app'?node:null,defaultView:{getComputedStyle:()=>({display:'block',visibility:'visible',opacity:'1'})}};
+}
+test('rendered first-party app can recover without a readiness message',()=>{
+ const h=setup();h.app.ensure();h.frame.contentDocument=renderedDocument();h.frame.events.load();
+ assert.equal(h.app.getState(),'ready');assert.equal(h.timers.size,0);
+ h.app.retry();assert.equal(h.app.getState(),'loading','retry cannot accept previous document before load');
+ h.frame.events.load();assert.equal(h.app.getState(),'ready');
+});
+test('DOM fallback rejects blank, hidden and other-route documents',()=>{
+ for(const options of [{hidden:true},{url:'about:blank'},{url:'https://power-tbm.vercel.app/comic/'},{url:'https://other.example/'}]){
+  const h=setup();h.app.ensure();h.frame.contentDocument=renderedDocument(options);h.frame.events.load();assert.equal(h.app.getState(),'loading');
+ }
 });
